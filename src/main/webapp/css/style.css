@@ -1,0 +1,35 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+body { background: #f0f4f8; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
+
+.card {
+    background: white; padding: 40px; border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 420px;
+}
+.card h2 { margin-bottom: 24px; color: #1a3c6e; text-align: center; }
+.card input { width: 100%; padding: 12px; margin-bottom: 14px; border: 1px solid #cdd5e0; border-radius: 8px; font-size: 14px; }
+.card button { width: 100%; padding: 12px; background: #1a3c6e; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+.card button:hover { background: #265a9e; }
+.card p { text-align: center; margin-top: 16px; font-size: 14px; color: #555; }
+.card a { color: #1a3c6e; text-decoration: none; font-weight: bold; }
+
+.dashboard { max-width: 860px; margin: 30px auto; padding: 0 20px; width: 100%; }
+.navbar { display: flex; justify-content: space-between; align-items: center; background: #1a3c6e; color: white; padding: 16px 24px; border-radius: 10px; margin-bottom: 20px; }
+.navbar a { color: #adc8ff; text-decoration: none; }
+
+.balance-card { background: white; padding: 28px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 20px; text-align: center; }
+.balance-card h3 { font-size: 28px; color: #1a3c6e; margin-top: 8px; }
+
+.actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; }
+.btn { flex: 1; min-width: 140px; padding: 16px; background: white; border: 2px solid #1a3c6e; color: #1a3c6e; text-align: center; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 15px; transition: all 0.2s; }
+.btn:hover { background: #1a3c6e; color: white; }
+
+.toast { background: #d4edda; color: #155724; padding: 14px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: bold; }
+.error   { color: #dc3545; text-align: center; margin-bottom: 12px; font-size: 14px; }
+.success { color: #28a745; text-align: center; margin-bottom: 12px; font-size: 14px; }
+
+table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+th { background: #1a3c6e; color: white; padding: 14px; text-align: left; }
+td { padding: 12px 14px; border-bottom: 1px solid #eee; font-size: 14px; }
+tr:last-child td { border-bottom: none; }
+.tx-deposit td:nth-child(2), .tx-transfer_in td:nth-child(2)   { color: #28a745; font-weight: bold; }
+.tx-withdraw td:nth-child(2), .tx-transfer_out td:nth-child(2) { color: #dc3545; font-weight: bold; }
