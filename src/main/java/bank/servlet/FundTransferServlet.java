@@ -27,8 +27,18 @@ public class FundTransferServlet extends HttpServlet {
         HttpSession session = req.getSession();
         int senderId              = (int) session.getAttribute("userId");
         String senderAccNo        = (String) session.getAttribute("accountNumber");
-        String receiverAccNo      = req.getParameter("receiverAccount").trim();
-        double amount             = Double.parseDouble(req.getParameter("amount"));
+        String action             = req.getParameter("action");
+        String receiverAccNo      = req.getParameter("receiverAccount");
+        String message            = req.getParameter("message");
+        String amountStr          = req.getParameter("amount");
+
+        if (receiverAccNo != null) receiverAccNo = receiverAccNo.trim();
+        if (message != null) message = message.trim();
+        
+        double amount = 0;
+        if (amountStr != null && !amountStr.trim().isEmpty()) {
+            amount = Double.parseDouble(amountStr);
+        }
 
         if (amount <= 0) {
             req.setAttribute("error", "Amount must be greater than zero.");
@@ -56,15 +66,27 @@ public class FundTransferServlet extends HttpServlet {
                 req.getRequestDispatcher("fundTransfer.jsp").forward(req, res); return;
             }
 
-            // Atomic transaction
+            if (!"confirm".equals(action)) {
+                req.setAttribute("receiverName", receiver.getFullName());
+                req.setAttribute("receiverAccount", receiverAccNo);
+                req.setAttribute("amount", amountStr);
+                req.setAttribute("message", message);
+                req.getRequestDispatcher("confirmTransfer.jsp").forward(req, res);
+                return;
+            }
+
+            // Atomic transaction (Confirmed)
             conn = DBconnection.getConnection();
             conn.setAutoCommit(false);
 
             TransactionDAO txDAO = new TransactionDAO();
             userDAO.updateBalance(conn, senderId,      sender.getBalance()   - amount);
             userDAO.updateBalance(conn, receiver.getId(), receiver.getBalance() + amount);
-            txDAO.log(conn, senderId,        "TRANSFER_OUT", amount, receiverAccNo, "Transfer to "   + receiverAccNo);
-            txDAO.log(conn, receiver.getId(), "TRANSFER_IN",  amount, senderAccNo,  "Transfer from " + senderAccNo);
+            String senderDesc = "Transfer to " + receiver.getFullName() + " (" + receiverAccNo + ")" + (message != null && !message.isEmpty() ? " - " + message : "");
+            String receiverDesc = "Transfer from " + sender.getFullName() + " (" + senderAccNo + ")" + (message != null && !message.isEmpty() ? " - " + message : "");
+
+            txDAO.log(conn, senderId,        "TRANSFER_OUT", amount, receiverAccNo, senderDesc);
+            txDAO.log(conn, receiver.getId(), "TRANSFER_IN",  amount, senderAccNo,  receiverDesc);
 
             conn.commit();
             session.setAttribute("toast", "₹" + amount + " transferred to " + receiverAccNo + " successfully!");

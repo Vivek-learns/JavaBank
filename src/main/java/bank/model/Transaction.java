@@ -32,4 +32,8 @@ public class Transaction {
 
     public Timestamp getCreatedAt() { return createdAt; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+
+    private String userName;
+    public String getUserName() { return userName; }
+    public void setUserName(String userName) { this.userName = userName; }
 }

@@ -13,7 +13,13 @@
 <div class="dashboard">
     <div class="navbar">
         <h2>JavaBank</h2>
-        <span>Welcome, <%= user.getFullName() %> &nbsp;|&nbsp; <a href="logout">Logout</a></span>
+            <div class="user-info">
+                Welcome, <%= user.getFullName() %> | 
+                <% if ("admin@javabank.com".equals(session.getAttribute("email"))) { %>
+                    <a href="admin" style="color: #ffc107; font-weight: bold; margin-right: 15px;">Admin Panel</a> | 
+                <% } %>
+                <a href="logout">Logout</a>
+            </div>
     </div>
 
     <% if(toast != null){ %><div class="toast"><%= toast %></div><% } %>

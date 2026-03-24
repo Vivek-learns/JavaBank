@@ -28,6 +28,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("userId",        user.getId());
                 session.setAttribute("userName",      user.getFullName());
                 session.setAttribute("accountNumber", user.getAccountNumber());
+                session.setAttribute("email",         user.getEmail());
                 res.sendRedirect("dashboard");
             } else {
                 req.setAttribute("error", "Invalid email or password.");

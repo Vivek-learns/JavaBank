@@ -9,6 +9,7 @@
     <form action="fundTransfer" method="post">
         <input type="text"   name="receiverAccount" placeholder="Receiver Account Number" required/>
         <input type="number" name="amount"           placeholder="Amount (₹)" min="1" step="0.01" required/>
+        <input type="text"   name="message"          placeholder="Message (optional)" maxlength="50"/>
         <button type="submit">Transfer</button>
     </form>
     <a href="dashboard">← Back</a>

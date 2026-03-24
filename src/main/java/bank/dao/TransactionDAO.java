@@ -56,4 +56,26 @@ public class TransactionDAO {
         }
         return list;
     }
+
+    public List<Transaction> getAllTransactions() throws SQLException {
+        List<Transaction> list = new ArrayList<>();
+        String sql = "SELECT t.*, u.full_name as user_name FROM transactions t JOIN users u ON t.user_id = u.id ORDER BY t.created_at DESC";
+        try (Connection conn = DBconnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Transaction t = new Transaction();
+                t.setId(rs.getInt("id"));
+                t.setUserId(rs.getInt("user_id"));
+                t.setType(rs.getString("type"));
+                t.setAmount(rs.getDouble("amount"));
+                t.setRelatedAccount(rs.getString("related_account"));
+                t.setDescription(rs.getString("description"));
+                t.setCreatedAt(rs.getTimestamp("created_at"));
+                t.setUserName(rs.getString("user_name"));
+                list.add(t);
+            }
+        }
+        return list;
+    }
 }
